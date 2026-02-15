@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard">
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Admin</h2>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#applicants">Applicants</a>
+    <a href="#jobs">Job Listings</a>
+    <a href="#documents">Documents</a>
+    <a href="#employed">Employed</a>
+    <a href="#" onclick="logout()">Logout</a>
+</div>
+
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<div class="overlay" onclick="closeMenu()"></div>
+
+<!-- Modal for actions (e.g., view document) -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Document Viewer</h3>
+        <p>Placeholder for document content or image.</p>
+        <button onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Dashboard Overview -->
+    <div class="card" id="dashboard">
+        <h3>Dashboard Overview</h3>
+        <p>Total Applicants: 50 | Open Positions: 10 | Hired: 20</p>
+    </div>
+
+    <!-- Job Listings -->
+    <div class="card" id="jobs">
+        <h3>Job Listings / Open Positions</h3>
+        <table>
+            <tr>
+                <th>Job ID</th>
+                <th>Position</th>
+                <th>Department</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <td>001</td>
+                <td>IT Support</td>
+                <td>IT</td>
+                <td>Company A</td>
+                <td>Open</td>
+                <td><button class="action-btn" onclick="alert('Edit Job')">Edit</button></td>
+            </tr>
+            <tr>
+                <td>002</td>
+                <td>Web Developer</td>
+                <td>Development</td>
+                <td>Company B</td>
+                <td>Open</td>
+                <td><button class="action-btn" onclick="alert('Edit Job')">Edit</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Applicants List -->
+    <div class="card" id="applicants">
+        <h3>List of Applicants</h3>
+        <table>
+            <tr>
+                <th>Applicant ID</th>
+                <th>Name</th>
+                <th>Applied Position</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <td>A001</td>
+                <td>Juan Dela Cruz</td>
+                <td>IT Support</td>
+                <td>Company A</td>
+                <td><span class="status pending">Pending</span></td>
+                <td>
+                    <button class="action-btn" onclick="updateStatus('Update status', 'A001')">Update Status</button>
+                    <button class="action-btn" onclick="viewProfile('View Profile', 'A001')">View Profile</button>
+                </td>
+            </tr>
+            <tr>
+                <td>A002</td>
+                <td>Maria Santos</td>
+                <td>Web Developer</td>
+                <td>Company B</td>
+                <td><span class="status approved">Hired</span></td>
+                <td>
+                    <button class="action-btn" onclick="updateStatus('Update status', 'A001')">Update Status</button>
+                    <button class="action-btn" onclick="viewProfile('View Profile', 'A001')">View Profile</button>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+
+    <!-- Applicant Documents -->
+    <div class="card" id="documents">
+        <h3>Applicants Documents</h3>
+        <table>
+            <tr>
+                <th>Applicant</th>
+                <th>Resume</th>
+                <th>ID</th>
+                <th>Certificate</th>
+            </tr>
+            <tr>
+                <td>Juan Dela Cruz</td>
+                <td><button class="action-btn" onclick="openModal()">View</button></td>
+                <td><button class="action-btn" onclick="openModal()">View</button></td>
+                <td><button class="action-btn" onclick="openModal()">View</button></td>
+            </tr>
+            <tr>
+                <td>Maria Santos</td>
+                <td><button class="action-btn" onclick="openModal()">View</button></td>
+                <td><button class="action-btn" onclick="openModal()">View</button></td>
+                <td><button class="action-btn" onclick="openModal()">View</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Employed -->
+    <div class="card" id="employed">
+        <h3>Employed</h3>
+        <table>
+            <tr>
+                <th>Applicant</th>
+                <th>ID</th>
+                <th>Position</th>
+                <th>Company</th>
+                <th>Contract</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <td>Mario Man</td>
+                <td>001</td>
+                <td>Security Guard</td> <!-- Fixed typo -->
+                <td>Company A</td>
+                <td>2 years</td>
+                <td>
+                    <button class="action-btn" onclick="updateStatus('Update status', 'A001')">Update Status</button>
+                    <button class="action-btn" onclick="viewProfile('View Profile', 'A001')">View Profile</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Pedro Penduko</td>
+                <td>002</td>
+                <td>Electrician</td>
+                <td>Company B</td>
+                <td>6 months</td>
+                <td>
+                    <button class="action-btn" onclick="updateStatus('Update status', 'A001')">Update Status</button>
+                    <button class="action-btn" onclick="viewProfile('View Profile', 'A001')">View Profile</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+</body>
+<script src="js/script.js"></script>
+</html>

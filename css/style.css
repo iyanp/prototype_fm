@@ -1,0 +1,461 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+/* ==============================
+   Page 1: Landing/Home Page
+============================== */
+body.home {
+    background: linear-gradient(135deg, #007bff 0%, #4d35ff 100%);
+    color: #333;
+}
+
+header {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.login-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background 0.3s;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.login-btn:hover {
+    background: #0056b3;
+}
+
+.hero {
+    padding: 100px 20px 60px;
+    text-align: center;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.cta-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.cta-btn:hover {
+    background: #218838;
+}
+
+.section {
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #007bff;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.feature {
+    flex: 1;
+    min-width: 250px;
+    text-align: center;
+    margin: 20px;
+}
+
+.feature h3 {
+    margin-bottom: 15px;
+}
+
+footer {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* ==============================
+   Page 2: Login Page
+============================== */
+body.login {
+    background: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-box {
+    background: #fff;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 40px;
+}
+
+.toggle-eye {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+    user-select: none;
+}
+
+.toggle-eye:hover {
+    color: #000;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.login-box button:hover {
+    background: #0056b3;
+}
+
+.or-divider {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    color: #999;
+    font-size: 14px;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+}
+
+.or-divider span {
+    margin: 0 10px;
+}
+
+.google-btn {
+    width: 100%;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.google-btn:hover {
+    background: #f9f9f9;
+}
+
+.back-btn {
+    display: block;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #007bff;
+    font-size: 25px;
+    transition: color 0.3s;
+}
+
+.back-btn:hover {
+    color: #0056b3;
+}
+
+/* ==============================
+   Page 3 & 4: Admin/User Dashboard
+============================== */
+body.dashboard {
+    background: #f4f6f8;
+}
+
+body.dashboard .sidebar {
+    width: 220px;
+    height: 100vh;
+    background: #2c3e50;
+    color: #fff;
+    position: fixed;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+body.dashboard .sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+body.dashboard .sidebar a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.sidebar a:hover {
+    background: #34495e;
+}
+
+.main {
+    margin-left: 240px;
+    padding: 20px;
+}
+
+.card {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+h3 {
+    margin-top: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background: #007bff;
+    color: #fff;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 13px;
+}
+
+.pending { background: orange; }
+.approved { background: green; }
+.rejected { background: red; }
+
+.action-btn, .action-buttons button {
+    padding: 5px 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.action-btn:hover, .action-buttons button:hover {
+    background: #0056b3;
+}
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1200;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+/* Toggle menu & overlay */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    background: #2c3e50;
+    color: #fff;
+    border: none;
+    font-size: 22px;
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.menu-toggle.hidden {
+    display: none;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 999;
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* ==============================
+   Responsive Media Queries
+============================== */
+@media (max-width: 992px) {
+    .sidebar { width: 180px; }
+    .main { margin-left: 200px; }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        left: -260px;
+        transition: left 0.3s ease;
+        z-index: 1000;
+    }
+    .sidebar.active { left: 0; }
+    .main { margin-left: 0; padding: 15px; padding-top: 60px; }
+    .card { padding: 15px; }
+    table { display: block; overflow-x: auto; white-space: nowrap; }
+    .action-btn { padding: 8px 12px; font-size: 14px; }
+    .action-buttons { flex-direction: column; }
+    .action-buttons button { width: 100%; margin-bottom: 10px; }
+    .menu-toggle { display: block; }
+}
+
+@media (max-width: 480px) {
+    body.home .hero { padding: 100px 15px 40px; }
+    body.home .hero h1 { font-size: 28px; }
+    body.home .hero p { font-size: 16px; }
+    .cta-btn, .login-btn { padding: 12px 20px; font-size: 14px; }
+    body.login .login-box { padding: 20px; max-width: 100%; }
+    body.login .login-box h2 { font-size: 20px; }
+    body.login input, .password-wrapper input, .login-box button, .google-btn { padding: 10px; font-size: 14px; }
+    .toggle-eye { font-size: 16px; }
+    .back-btn { margin-left: 20px; margin-top: 10px; font-size: 14px; }
+    body.dashboard { font-size: 14px; }
+    h3 { font-size: 16px; }
+    .status { font-size: 12px; }
+    .sidebar { width: 200px; }
+    .main { padding: 10px; }
+    .card { padding: 10px; }
+    .action-buttons button { padding: 10px; }
+}
