@@ -21,32 +21,6 @@
 <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 <div class="overlay" onclick="closeMenu()"></div>
 
-<!--
-
-<script>
-    function logout() {
-        const confirmLogout = confirm("Are you sure you want to logout?");
-        
-        if (confirmLogout) {
-            window.location.href = "login.html";
-        }
-    }
-
-    function toggleMenu() {
-        document.querySelector(".sidebar").classList.add("active");
-        document.querySelector(".overlay").classList.add("active");
-        document.querySelector(".menu-toggle").classList.add("hidden");
-    }
-
-    function closeMenu() {
-        document.querySelector(".sidebar").classList.remove("active");
-        document.querySelector(".overlay").classList.remove("active");
-        document.querySelector(".menu-toggle").classList.remove("hidden");
-    }
-</script>
-
--->
-
 <!-- Main Content -->
 <div class="main">
 

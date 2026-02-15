@@ -13,8 +13,8 @@
 <!-- Sidebar -->
 <div class="sidebar">
     <h2>Admin</h2>
-    <a href="admin_dashboard.html">Dashboard</a>
-    <a href="admin_applicants.html">Applicants</a>
+    <a href="admin_dashboard.php">Dashboard</a>
+    <a href="admin_applicants.php">Applicants</a>
     <a href="#" onclick="logout()">Logout</a>
 </div>
 

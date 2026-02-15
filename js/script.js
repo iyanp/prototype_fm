@@ -20,10 +20,10 @@ function loginUser() {
     const password = passwordField.value;
 
     if (username === "admin" && password === "admin") {
-        window.location.href = "./admin_dashboard.html";
+        window.location.href = "./admin_dashboard.php";
     } 
     else if (username === "applicant" && password === "applicant") {
-        window.location.href = "./applicant_dashboard.html";
+        window.location.href = "./applicant_dashboard.php";
     } 
     else {
         alert("Invalid username or password");
@@ -41,7 +41,7 @@ function loginUser() {
 function logout() {
     const confirmLogout = confirm("Are you sure you want to logout?");
     if (confirmLogout) {
-        window.location.href = "login.html";
+        window.location.href = "login.php";
     }
 }
 
@@ -96,7 +96,7 @@ function updateApplicantStatus(action, applicantId) {
 }
 
 function viewProfile(){
-    window.location.assign("applicant_profile.html");
+    window.location.assign("applicant_profile.php");
 }
 
 

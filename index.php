@@ -11,7 +11,7 @@
     <!-- Header -->
     <header>
         <div class="logo">Forever Manpower</div>
-        <a href="login.html" class="login-btn">Log In</a> <!-- Links to the login page -->
+        <a href="login.php" class="login-btn">Log In</a> <!-- Links to the login page -->
     </header>
 
     <!-- Hero Section -->

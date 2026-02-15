@@ -9,7 +9,7 @@
 
 <body class="login"> 
 <div class="login-box">
-    <a href="index.html" class="back-btn">&larr;</a>
+    <a href="index.php" class="back-btn">&larr;</a>
     <h2>Welcome</h2>
     <form onsubmit="return loginUser()">
         <input type="text" id="username" placeholder="Username" required>
