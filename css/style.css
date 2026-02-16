@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -124,22 +130,28 @@ footer {
 /* ==============================
    Page 2: Login Page
 ============================== */
+
 body.login {
-    background: #f2f2f2;
+    background: linear-gradient(100deg, var(--primary-light), var(--accent));
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
 }
-
 .login-box {
-    background: #fff;
-    padding: 30px;
-    width: 100%;
-    max-width: 400px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    background: var(--white-glass);
+    border: 3px solid rgba(255,255,255,0.3);
+    padding: clamp(20px, 5vw, 40px);
+    width: 90%;
+    max-width: 420px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    color: white;
+    animation: fadeIn 0.6s ease-in-out;
+    margin: 20px auto;
 }
 
 .login-box h2 {
@@ -150,13 +162,28 @@ body.login {
 
 .login-box input {
     width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
     font-size: 16px;
-    box-sizing: border-box;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
 }
+
+.login-box input::placeholder {
+    color: rgba(255,255,255,0.85);
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.login-box input:focus {
+    outline: none;
+    background: rgba(255,255,255,0.35);
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.5);
+}
+
 
 .password-wrapper {
     position: relative;
@@ -183,27 +210,36 @@ body.login {
 
 .login-box button {
     width: 100%;
-    padding: 12px;
-    background: #007bff;
-    border: none;
-    color: white;
-    border-radius: 5px;
+    padding: 14px;
     margin-top: 10px;
+    border-radius: 8px;
     font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background: linear-gradient(135deg, var(--primary-light), var(--accent));
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
 }
 
 .login-box button:hover {
-    background: #0056b3;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+.login-box button:active {
+    transform: translateY(0);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 
 .or-divider {
     display: flex;
     align-items: center;
-    margin: 15px 0;
-    color: #999;
-    font-size: 14px;
+    margin: 20px 0;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+    font-size: 16px;
 }
 
 .or-divider::before,
@@ -211,11 +247,20 @@ body.login {
     content: "";
     flex: 1;
     height: 1px;
-    background: #ddd;
+    background: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+    animation: shimmer 2s infinite;
+    margin: 0 10px;
+    border-radius: 1px;
 }
 
 .or-divider span {
-    margin: 0 10px;
+    padding: 0 5px;
+    background: rgba(0,0,0,0); /* transparent background */
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
 }
 
 .google-btn {
@@ -240,7 +285,7 @@ body.login {
 
 .back-btn {
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     text-decoration: none;
     color: #007bff;
     font-size: 25px;
@@ -388,7 +433,7 @@ table th {
     top: 15px;
     left: 15px;
     z-index: 1100;
-    background: #2c3e50;
+    background: var(--primary);
     color: #fff;
     border: none;
     font-size: 22px;
@@ -415,11 +460,30 @@ table th {
 
 .overlay.active {
     display: block;
+    backdrop-filter: blur(4px);
 }
 
 /* ==============================
    Responsive Media Queries
 ============================== */
+
+:root {
+    --primary: #1e3a8a;       /* deep professional blue */
+    --primary-light: #3b82f6;
+    --accent: #0ea5e9;        /* recruitment energy */
+    --success: #22c55e;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --dark: #0f172a;
+    --gray-light: #f1f5f9;
+    --white-glass: rgba(255,255,255,0.15);
+}
+
+@keyframes shimmer {
+    0% { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
+}
+
 @media (max-width: 992px) {
     .sidebar { width: 180px; }
     .main { margin-left: 200px; }
@@ -427,11 +491,10 @@ table th {
 
 @media (max-width: 768px) {
     .sidebar {
-        left: -260px;
+        transform: translateX(-100%);
         transition: left 0.3s ease;
-        z-index: 1000;
     }
-    .sidebar.active { left: 0; }
+    .sidebar.active { transform: translateX(0);}
     .main { margin-left: 0; padding: 15px; padding-top: 60px; }
     .card { padding: 15px; }
     table { display: block; overflow-x: auto; white-space: nowrap; }
@@ -439,6 +502,7 @@ table th {
     .action-buttons { flex-direction: column; }
     .action-buttons button { width: 100%; margin-bottom: 10px; }
     .menu-toggle { display: block; }
+    .overlay.active { display: block; backdrop-filter: blur(4px); }
 }
 
 @media (max-width: 480px) {

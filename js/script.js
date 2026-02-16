@@ -3,6 +3,26 @@
    LOGIN PAGE FUNCTIONS
 =================================*/
 
+function createAccount() {
+    const confirmCreds = confirm("Proceed with creating your account?");
+    if (confirmCreds) {
+        window.location.href = "register_page.php";
+    }
+}
+
+document.getElementById('registerForm').addEventListener('submit', function(event) {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm_password').value;
+    const errorMessage = document.getElementById('error-message');
+
+    if (password !== confirmPassword) {
+        errorMessage.textContent = 'Passwords do not match.';
+        event.preventDefault();
+    } else {
+        errorMessage.textContent = '';
+    }
+});
+
 function togglePassword() {
     const pass = document.getElementById("password");
     if (pass) {

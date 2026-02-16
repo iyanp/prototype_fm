@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Added for mobile responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -25,7 +25,7 @@
             <span>or</span>
         </div>
 
-        <button type="button" class="google-btn">Continue with Gmail</button>
+        <button onclick="createAccount()">Continue with Gmail</button>
     </form>
 </div>
 
