@@ -30,6 +30,7 @@ function togglePassword() {
     }
 }
 
+/**For removing reason: no purpose, for sample only **/
 function loginUser() {
     const usernameField = document.getElementById("username");
     const passwordField = document.getElementById("password");

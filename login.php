@@ -11,10 +11,10 @@
 <div class="login-box">
     <a href="index.php" class="back-btn">&larr;</a>
     <h2>Welcome</h2>
-    <form onsubmit="return loginUser()">
-        <input type="text" id="username" placeholder="Username" required>
+    <form action="login_process.php" method="POST">
+        <input type="text" name= "username" id="username" placeholder="Username" required>
         <div class="password-wrapper">
-            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
             <span class="toggle-eye" onclick="togglePassword()">👁</span>
         </div>
 

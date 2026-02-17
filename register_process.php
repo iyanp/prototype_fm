@@ -32,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Define role (adjust as needed, e.g., 'user', 'admin')
-    $role = 'user';  // Default role for new users
-    $user_status = 1; // 1 is active
+    $role = 'applicant';  // Default role for new users
+    $user_status = 'active';
 
     // Check for existing email or username
     $checkStmt = $conn->prepare("SELECT user_id FROM tb_user WHERE user_gmail = ? OR user_name = ?");

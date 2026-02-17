@@ -1,3 +1,16 @@
+<?php
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: login.php");
+    exit;
+}
+
+include "db_connect.php";
+
+$result = mysqli_query($conn, "SELECT * FROM tb_user");
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +26,7 @@
 <div class="sidebar">
     <h2>Admin</h2>
     <a href="#dashboard">Dashboard</a>
+    <a href="users">Users</a>
     <a href="#applicants">Applicants</a>
     <a href="#jobs">Job Listings</a>
     <a href="#documents">Documents</a>
@@ -40,6 +54,32 @@
     <div class="card" id="dashboard">
         <h3>Dashboard Overview</h3>
         <p>Total Applicants: 50 | Open Positions: 10 | Hired: 20</p>
+    </div>
+    <!--Users-->
+        <div class="card" id="users">
+        <h3>Users</h3>
+        <table>
+            <tr>
+                <th>User Id</th>
+                <th>Username</th>
+                <th>User gmail</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            <?php while($row = mysqli_fetch_assoc($result)) { ?>
+                <tr>
+                    <td><?php echo $row['user_id'] ;?></td>
+                    <td><?php echo $row['user_name'] ;?></td>
+                    <td><?php echo $row['user_gmail'] ;?></td>
+                    <td><?php echo $row['role'] ;?></td>
+                    <td><?php echo $row['user_status'] ;?></td>
+                    <td><button class="action-btn">Action</button></td>
+                </tr>
+            <?php } ?>
+
+          
+        </table>
     </div>
 
     <!-- Job Listings -->
