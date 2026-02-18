@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Check if account is active (optional, based on your status logic)
-        if ($user_status != 1) {
+        if ($user_status != "active") {
             $stmt->close();
             $conn->close();
             die("Error: Account is inactive. Contact support.");
