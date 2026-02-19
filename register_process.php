@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Define role (adjust as needed, e.g., 'user', 'admin')
     $role = 'applicant';  // Default role for new users
-    $user_status = 'active';
+    $user_status = 'active'; // Default status for new users
 
     // Check for existing email or username
     $checkStmt = $conn->prepare("SELECT user_id FROM tb_user WHERE user_gmail = ? OR user_name = ?");
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         (user_gmail, user_firstname, user_lastname, password_hash, role, user_status, user_name) 
         VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-    $stmt->bind_param("sssssis", 
+    $stmt->bind_param("sssssss", 
         $email, 
         $firstname, 
         $lastname, 

@@ -10,6 +10,12 @@ include "db_connect.php";
 $result = mysqli_query($conn, "SELECT * FROM tb_user");
 ?>
 
+<script>
+$(document).ready(function() {
+    console.log("jQuery is working!");
+});
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,9 +41,21 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </head>
 
 <body id="page-top">
+
+    <!--- Might be usefull
+    <div class="alert alert-info">
+    </div>
+    -->
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -437,7 +455,32 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
                                                     <td><?php echo $row['user_gmail'] ;?></td>
                                                     <td><?php echo $row['role'] ;?></td>
                                                     <td><?php echo $row['user_status'] ;?></td>
-                                                    <td><button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Action</button></td>
+                                                    <td>
+                                                        <div class="nav-item dropdown no-arrow">
+                                                            <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <span class=""><button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="button">Action</button></span>
+                                                            </a>
+                                                            <!-- Dropdown - Action -->
+                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                                                
+                                                                <?php 
+                                                                $current_role = strtolower(trim($row['role']));
+                                                                
+                                                                if($current_role == 'applicant') { ?>
+                                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="updateRole(<?php echo $row['user_id']; ?>, 'admin')">Set Admin</a>
+                                                                <?php } else { ?>
+                                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="updateRole(<?php echo $row['user_id']; ?>, 'applicant')">Set Applicant</a>
+                                                                <?php } ?>
+                                                            
+                                                            <div class="collapse-divider"></div>
+                                                                <a class="dropdown-item">
+                                                                    Block
+                                                                </a>
+                                                                <a class="dropdown-item" href="javascript:void(0)" onclick="deleteUser(<?php echo $row['user_id']; ?>)">Delete</a>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
@@ -519,6 +562,8 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
     <script src="js/demo/chart-pie-demo.js"></script>
     <script src="js/demo/datatables-demo.js"></script>
 
+    <!-- Other js-->
+    <script src="js/delete_user.js"></script>
 
 </body>
 
