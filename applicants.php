@@ -7,9 +7,21 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 include "db_connect.php";
 
-$result = mysqli_query($conn, "SELECT * FROM tb_user");
-?>
+$sql = "SELECT 
+            a.applicant_id,
+            a.user_id,
+            a.contact,
+            a.address,
+            a.created_at,
+            u.user_firstname,
+            u.user_lastname,
+            u.user_gmail
+        FROM tb_applicant a
+        INNER JOIN tb_user u ON a.user_id = u.user_id
+        ORDER BY a.created_at DESC";
 
+$result = $conn->query($sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,15 +33,15 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin Dashboard Main</title>
+    <title>Admin Dashboard Applicant</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
@@ -52,8 +64,6 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
                 </div>
                 <div class="sidebar-brand-text mx-3">Admin</div>
             </a>
-
-            <!-- DONE -->
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -79,17 +89,16 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Login Screens:</h6>
                         <a class="collapse-item" href="login.php">Sign out</a>
-                        <a class="collapse-item" href="register.php">Create new account</a>
-                        <a class="collapse-item" href="forgot-password.php">Forgot Password</a>
+                        <a class="collapse-item" href="register_page.php">Create new account</a>
+                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.php">404 Page</a>
-                        <a class="collapse-item" href="blank.php">Blank Page</a>
+                        <a class="collapse-item" href="404.html">404 Page</a>
+                        <a class="collapse-item" href="blank.html">Blank Page</a>
                     </div>
                 </div>
             </li>
-            
-            <!-- DONE -->
+
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="job_listings.php">
@@ -114,7 +123,6 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
 
         </ul>
         <!-- End of Sidebar -->
-        <!--DONE-->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -126,11 +134,11 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <!-- DONE -->
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
 
                     <!-- Topbar Search -->
                     <form
@@ -145,7 +153,7 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
                             </div>
                         </div>
                     </form>
-                    <!--- Done -->
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -172,8 +180,6 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
                                 </form>
                             </div>
                         </li>
-
-                        <!---  Done  -->
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -227,7 +233,6 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
                         </li>
 
                         <!-- Nav Item - Messages -->
-                        <!--- No need to inlcude this -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -293,8 +298,6 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
                             </div>
                         </li>
 
-                        <!---Done -->
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -327,128 +330,70 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
                                 </a>
                             </div>
                         </li>
+
                     </ul>
+
                 </nav>
                 <!-- End of Topbar -->
-                <!--- DONE -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> Refresh</a>
-                    </div>
+                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                        For more information about DataTables, please visit the <a target="_blank"
+                            href="https://datatables.net">official DataTables documentation</a>.</p>
 
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Total Applicants</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">--</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Applicants List</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                            <th>Contact</th>
+                                            <th>Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                            <th>Contact</th>
+                                            <th>Address</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <?php
+                                        if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<tr>";
+                                            echo "<td>" . $row['applicant_id'] . "</td>";
+                                            echo "<td>" . $row['user_firstname'] . "</td>";
+                                            echo "<td>" . $row['user_lastname'] . "</td>";
+                                            echo "<td>" . $row['user_gmail'] . "</td>";
+                                            echo "<td>" . $row['contact'] . "</td>";
+                                            echo "<td>" . $row['address'] . "</td>";
+                                            echo "</tr>";
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='7'>No applicants found</td></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Open Positions</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">--</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- All stats -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Hired</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">--</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Table User Row -->
-                    <!--Table user-->
-                    <div class="card shadow mb-3">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">User List</h6>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>User Id</th>
-                                                <th>Username</th>
-                                                <th>User gmail</th>
-                                                <th>Role</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>User Id</th>
-                                                <th>Username</th>
-                                                <th>User gmail</th>
-                                                <th>Role</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </tfoot>
-                                        <tbody>
-                                            <?php while($row = mysqli_fetch_assoc($result)) { ?>
-                                                <tr>
-                                                    <td><?php echo $row['user_id'] ;?></td>
-                                                    <td><?php echo $row['user_name'] ;?></td>
-                                                    <td><?php echo $row['user_gmail'] ;?></td>
-                                                    <td><?php echo $row['role'] ;?></td>
-                                                    <td><?php echo $row['user_status'] ;?></td>
-                                                    <td><button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Action</button></td>
-                                                </tr>
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                    <!-- Job listing Row -->
-                    <div class="row">
-
                     </div>
 
                 </div>
@@ -461,7 +406,7 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
             </footer>
@@ -509,16 +454,11 @@ $result = mysqli_query($conn, "SELECT * FROM tb_user");
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-     <!-- Might remove chart -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
     <script src="js/demo/datatables-demo.js"></script>
-
 
 </body>
 
