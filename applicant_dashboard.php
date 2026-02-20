@@ -1,9 +1,16 @@
 
 <?php
-session_start();
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header("Location: login.php");
-    exit;
+
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+require_once 'security_header.php';
+
+// Check role
+if ($_SESSION['user_role'] != 'applicant') {
+    header("Location: admin_dashboard.php?error=Access denied");
+    exit();
 }
 ?>
 

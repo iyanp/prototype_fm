@@ -83,3 +83,18 @@ function deleteUser(userId) {
         }
     });
 }
+
+//security 
+window.history.forward();
+
+function noBack() {
+    window.history.forward();
+}
+
+// Disable back button on page load
+window.onload = noBack;
+window.onpageshow = function(evt) {
+    if (evt.persisted) {
+        noBack();
+    }
+};

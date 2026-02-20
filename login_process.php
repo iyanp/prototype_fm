@@ -18,11 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //allow null to match potential DB state
     $password_hash =null;
-    
     $user_status = 0;
+    $user_role = "";
 
     // Prepare query to fetch user data
-    $stmt = $conn->prepare("SELECT user_id, password_hash, user_status FROM tb_user WHERE user_name = ?");
+    $stmt = $conn->prepare("SELECT user_id, password_hash, user_status, role FROM tb_user WHERE user_name = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->num_rows > 0) {
         // User found, bind results
-        $stmt->bind_result($user_id, $password_hash, $user_status);
+        $stmt->bind_result($user_id, $password_hash, $user_status, $user_role);
         $stmt->fetch();
 
         if ($password_hash == null){
@@ -46,19 +46,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Error: Account is inactive. Contact support.");
         }
 
+        if ($user_status == "blocked") {
+            $stmt -> close();
+            $conn -> close();
+            die("Account Blocked");
+        }
+
         // Verify password
         if (password_verify($password, $password_hash)) {
             // Login successful: Set session variables
             $_SESSION['user_id'] = $user_id;
             $_SESSION['username'] = $username;
+            $_SESSION['user_role'] = $user_role;
             $_SESSION['logged_in'] = true;
 
             $stmt->close();
             $conn->close();
 
+            //Redirect based on role
+            if ($user_role == 'admin') {
+                header("Location: admin_dashboard.php");
+                exit;
+            } elseif ($user_role == 'applicant') {
+                header("Location: applicant_dashboard.php");
+            } else {
+                die("Error: Invalid user role");
+            }
+
             // Redirect to a protected page (e.g., dashboard)
-            header("Location: admin_dashboard.php");
-            exit;
+            //header("Location: admin_dashboard.php");
+            //exit;
         } else {
             // Wrong password
             $stmt->close();

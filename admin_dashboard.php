@@ -1,8 +1,15 @@
 <?php
-session_start();
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header("Location: login.php");
-    exit;
+
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+require_once 'security_header.php';
+
+// Check role
+if ($_SESSION['user_role'] != 'admin') {
+    header("Location: applicant_dashboard.php?error=Access denied");
+    exit();
 }
 
 include "db_connect.php";
@@ -563,7 +570,7 @@ $(document).ready(function() {
     <script src="js/demo/datatables-demo.js"></script>
 
     <!-- Other js-->
-    <script src="js/delete_user.js"></script>
+    <script src="js/script.js"></script>
 
 </body>
 
