@@ -1,3 +1,11 @@
+<?php
+
+$login_error = $_SESSION['login_error'] ?? '';
+$prev_username = $_SESSION['prev_username'] ??'';
+
+unset($_SESSION['login_error']);
+unset($_SESSION['prev_username']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +28,7 @@
 </head>
 
 <body class="bg-gradient-primary">
+    
 
     <div class="container">
 
@@ -43,14 +52,25 @@
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
 
+                                    <!--- Error display message --->
+                                    <?php if (!empty($login_error)): ?>
+                                        <div class="alert-error">
+                                            <?php echo htmlspecialchars($login_error); ?>
+                                        </div>
+                                    <?php endif; ?>
+    
+
                                     <!--FORM-->
                                     <form class="user" action="login_process.php" method="POST">
                                         <div class="form-group">
                                             <input type="text" name= "username" id= "username" class="form-control form-control-user" aria-describedby="emailHelp"
-                                                placeholder="Username">
+                                                placeholder="Username" value="<?php echo htmlspecialchars($prev_username); ?>">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password" required>
+                                            <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password">
+                                            <?php if (!empty($login_error)): ?>
+                                                <span class="error-message"><?php echo $login_error; ?></span>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">

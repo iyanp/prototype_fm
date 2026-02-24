@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "project_fm";
+$database = "fm_db";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);

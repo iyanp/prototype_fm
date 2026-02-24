@@ -5,24 +5,29 @@ include "db_connect.php";
 
 // Only process if form is submitted via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    // DEBUG: Log the attempt
+    error_log("Login attempt for username: " . $_POST['username']);
+
     // Sanitize inputs
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
     // Basic validation
     if (empty($username) || empty($password)) {
-        die("Error: Username and password are required.");
+        $_SESSION['login_error'] = "Username and password are required.";
+        $_SESSION['prev_username'] = $username;
+        header("Location: login.php");
+        exit;
     }
 
     $user_id = 0;
-
-    //allow null to match potential DB state
-    $password_hash =null;
+    $password_hash = null;
     $user_status = 0;
     $user_role = "";
 
     // Prepare query to fetch user data
-    $stmt = $conn->prepare("SELECT user_id, password_hash, user_status, role FROM tb_user WHERE user_name = ?");
+    $stmt = $conn->prepare("SELECT user_id, password_hash, user_status, user_firstname, role FROM tb_user WHERE user_name = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     
@@ -30,40 +35,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->num_rows > 0) {
         // User found, bind results
-        $stmt->bind_result($user_id, $password_hash, $user_status, $user_role);
+        $stmt->bind_result($user_id, $password_hash, $user_status, $firstname, $user_role);
         $stmt->fetch();
 
-        if ($password_hash == null){
-            $stmt -> close();
-            $connn -> close();
-            die("Error: Invalid account data. Please contact support");
+        // DEBUG: Log password hash found
+        error_log("User found. Password hash: " . $password_hash);
+        error_log("User status: " . $user_status);
+
+        if ($password_hash == null) {
+            $stmt->close();
+            $conn->close();
+            $_SESSION['login_error'] = "Invalid account data. Please contact support.";
+            header("Location: login.php");
+            exit;
         }
 
-        // Check if account is active (optional, based on your status logic)
+        // Check if account is active
         if ($user_status != "active") {
             $stmt->close();
             $conn->close();
-            die("Error: Account is inactive. Contact support.");
+            $_SESSION['login_error'] = "Account is inactive. Contact support.";
+            header("Location: login.php");
+            exit;
         }
 
         if ($user_status == "blocked") {
-            $stmt -> close();
-            $conn -> close();
-            die("Account Blocked");
+            $stmt->close();
+            $conn->close();
+            $_SESSION['login_error'] = "Account Blocked. Contact support.";
+            header("Location: login.php");
+            exit;
         }
 
+        // DEBUG: Test password verification
+        $verify_result = password_verify($password, $password_hash);
+        error_log("Password verify result: " . ($verify_result ? "TRUE" : "FALSE"));
+
         // Verify password
-        if (password_verify($password, $password_hash)) {
+        if ($verify_result) {
             // Login successful: Set session variables
             $_SESSION['user_id'] = $user_id;
             $_SESSION['username'] = $username;
             $_SESSION['user_role'] = $user_role;
+            $_SESSION['firstname'] = $firstname;
             $_SESSION['logged_in'] = true;
 
             $stmt->close();
             $conn->close();
 
-            //Redirect based on role
+            // Redirect based on role
             if ($user_role == 'admin') {
                 header("Location: admin_dashboard.php");
                 exit;
@@ -72,21 +92,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 die("Error: Invalid user role");
             }
-
-            // Redirect to a protected page (e.g., dashboard)
-            //header("Location: admin_dashboard.php");
-            //exit;
         } else {
             // Wrong password
             $stmt->close();
             $conn->close();
-            die("Error: Invalid username or password.");
+            $_SESSION['login_error'] = "Invalid username or password.";
+            $_SESSION['prev_username'] = $username;
+            header("Location: login.php");
+            exit;
         }
     } else {
         // Username not found
         $stmt->close();
         $conn->close();
-        die("Error: Invalid username or password.");
+        $_SESSION['login_error'] = "Invalid username or password.";
+        $_SESSION['prev_username'] = $username;
+        header("Location: login.php");
+        exit;
     }
 } else {
     // If not POST, redirect back to login

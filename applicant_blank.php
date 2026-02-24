@@ -1,45 +1,3 @@
-<?php
-include "db_connect.php";
-
-header("Cache-Control: no-cache, no-store, must-revalidate");
-header("Pragma: no-cache");
-header("Expires: 0");
-
-require_once 'security_header.php';
-
-// Check role
-if ($_SESSION['user_role'] != 'admin') {
-    header("Location: applicant_dashboard.php?error=Access denied");
-    exit();
-}
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-//count applicants
-$query = "SELECT COUNT(*) AS total_applicants FROM tb_applicant";
-$result = mysqli_query($conn, $query);
-$totalApplicants = 0;
-
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $totalApplicants = $row['total_applicants'];
-}
-//end of count
-
-
-
-$result = mysqli_query($conn, "SELECT * FROM tb_user");
-?>
-
-<script>
-$(document).ready(function() {
-    console.log("jQuery is working!");
-});
-</script>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,7 +9,7 @@ $(document).ready(function() {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin Dashboard Main</title>
+    <title>Applicant Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -84,80 +42,6 @@ $(document).ready(function() {
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admin_dashboard.php">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Admin</div>
-            </a>
-
-            <!-- DONE -->
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="admin_dashboard.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>More</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.php">Sign out</a>
-                        <a class="collapse-item" href="register.php">Create new account</a>
-                        <a class="collapse-item" href="forgot-password.php">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.php">404 Page</a>
-                        <a class="collapse-item" href="blank.php">Blank Page</a>
-                    </div>
-                </div>
-            </li>
-            
-            <!-- DONE -->
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="job_listings.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Job listings</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item active">
-                <a class="nav-link" href="applicants.php">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Applicants</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
-        <!-- End of Sidebar -->
-        <!--DONE-->
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -166,11 +50,6 @@ $(document).ready(function() {
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
 
                     <!-- DONE -->
 
@@ -188,9 +67,9 @@ $(document).ready(function() {
                         </div>
                     </form>
                     <!--- Done -->
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
@@ -214,9 +93,19 @@ $(document).ready(function() {
                                 </form>
                             </div>
                         </li>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Jobs
+                            </a>
+                        </li>
 
-                        <!---  Done  -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Applications
+                            </a>
+                        </li>
 
+                        <!-- Might Remove later but keep code for future improvement-->
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
@@ -343,7 +232,7 @@ $(document).ready(function() {
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo htmlspecialchars($_SESSION['firstname']); ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">---</span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -368,6 +257,7 @@ $(document).ready(function() {
                                     Logout
                                 </a>
                             </div>
+
                         </li>
                     </ul>
                 </nav>
@@ -379,7 +269,7 @@ $(document).ready(function() {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Welcome, ---</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> Refresh</a>
                     </div>
 
@@ -393,8 +283,8 @@ $(document).ready(function() {
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Total Applicants</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $totalApplicants; ?></div>
+                                                Pending Applications</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">--</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -411,7 +301,7 @@ $(document).ready(function() {
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Open Positions</div>
+                                                Jobs offers</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">--</div>
                                         </div>
                                         <div class="col-auto">
@@ -421,33 +311,18 @@ $(document).ready(function() {
                                 </div>
                             </div>
                         </div>
-
-                        <!-- All stats -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Hired</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">--</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Table User Row -->
-                    <!--Table user-->
+                    <!--Table JOb Offers-->
                     <div class="card shadow mb-3">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">User List</h6>
-                            </div>
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Job Offers</h6>
+                        </div>
+                            <div class="card-body">No Job Offers at the moment.</div>
+                            
 
+                            <!-- 
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -472,50 +347,96 @@ $(document).ready(function() {
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <?php while($row = mysqli_fetch_assoc($result)) { ?>
-                                                <tr>
-                                                    <td><?php echo $row['user_id'] ;?></td>
-                                                    <td><?php echo $row['user_name'] ;?></td>
-                                                    <td><?php echo $row['user_gmail'] ;?></td>
-                                                    <td><?php echo $row['role'] ;?></td>
-                                                    <td><?php echo $row['user_status'] ;?></td>
-                                                    <td>
-                                                        <div class="nav-item dropdown no-arrow">
-                                                            <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <span class=""><button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="button">Action</button></span>
-                                                            </a>
-                                                            <!-- Dropdown - Action -->
-                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                                                
-                                                                <?php 
-                                                                $current_role = strtolower(trim($row['role']));
-                                                                
-                                                                if($current_role == 'applicant') { ?>
-                                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="updateRole(<?php echo $row['user_id']; ?>, 'admin')">Set Admin</a>
-                                                                <?php } else { ?>
-                                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="updateRole(<?php echo $row['user_id']; ?>, 'applicant')">Set Applicant</a>
-                                                                <?php } ?>
-                                                            
-                                                            <div class="collapse-divider"></div>
-                                                                <a class="dropdown-item">
-                                                                    Block
-                                                                </a>
-                                                                <a class="dropdown-item" href="javascript:void(0)" onclick="deleteUser(<?php echo $row['user_id']; ?>)">Delete</a>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </td>
-                                                </tr>
-                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+
+                        <div class="row">
+                    </div>
+
+                    <!--Table Application Status-->
+                    <div class="card shadow mb-3">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Application Status</h6>
+                        </div>
+                            <div class="card-body">No Application Status at the moment.</div>
+                            <!--
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>User Id</th>
+                                                <th>Username</th>
+                                                <th>User gmail</th>
+                                                <th>Role</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>User Id</th>
+                                                <th>Username</th>
+                                                <th>User gmail</th>
+                                                <th>Role</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            ---> 
+                        </div>
+
+                        <div class="row">
+                    </div>
+
+                    <!--Table Documents-->
+                    <div class="card shadow mb-3">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Documents Submitted</h6>
+                        </div>
+                            <div class="card-body">Submit Resume.</div>
+                            <!---
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>User Id</th>
+                                                <th>Username</th>
+                                                <th>User gmail</th>
+                                                <th>Role</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>User Id</th>
+                                                <th>Username</th>
+                                                <th>User gmail</th>
+                                                <th>Role</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
+                        --->
 
-                    <!-- Job listing Row -->
-                    <div class="row">
-
+                        <div class="row">
                     </div>
 
                 </div>
