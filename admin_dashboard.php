@@ -497,9 +497,8 @@ $(document).ready(function() {
                                                                 <?php } ?>
                                                             
                                                             <div class="collapse-divider"></div>
-                                                                <a class="dropdown-item">
-                                                                    Block
-                                                                </a>
+                                                                <a class="dropdown-item">View Profile</a>
+                                                                <a class="dropdown-item">Block</a>
                                                                 <a class="dropdown-item" href="javascript:void(0)" onclick="deleteUser(<?php echo $row['user_id']; ?>)">Delete</a>
                                                             </div>
                                                         </div>
